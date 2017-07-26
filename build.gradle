@@ -1,0 +1,45 @@
+group 'my-prototypes'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+
+    repositories {
+        mavenCentral()
+    }
+
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    dependencies {
+        compile("org.springframework.boot:spring-boot-devtools")
+        // tag::jetty[]
+        compile("org.springframework.boot:spring-boot-starter-web") {
+            exclude module: "spring-boot-starter-tomcat"
+        }
+        compile("org.springframework.boot:spring-boot-starter-jetty")
+        // end::jetty[]
+        // tag::actuator[]
+        compile("org.springframework.boot:spring-boot-starter-actuator")
+        // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+        testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.2.RELEASE'
+        // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-contract-wiremock
+        testCompile group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: '1.1.0.RELEASE'
+        // end::actuator[]
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+        compile group: 'org.springframework.restdocs', name: 'spring-restdocs-core', version: '1.1.0.RELEASE'
+
+    }
+}
